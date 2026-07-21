@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CloudShare Pro Dashboard</title>
+
+<link rel="stylesheet" href="css/dashboard.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h1 style="font-size:14px;">
+Made by Pratyaksh Pratap Singh <br>
+with ❤️
+</h1>
+
+<h2>☁ CloudShare</h2>
+
+<ul>
+
+<li>🏠 Home</li>
+
+<li id="upload">📤 Upload</li>
+
+<li id="myFiles">📁 My Files</li>
+
+<li id="usersBtn">👥 Users</li>
+
+<li id="sharedBtn">📥 Shared</li>
+
+<li id="profileBtn">⚙ Profile</li>
+
+<li id="darkModeBtn">🌙 Dark Mode</li>
+
+<li id="logoutBtn">🚪 Logout</li>
+
+</ul>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+
+<div>
+
+<h1>Welcome Back 👋</h1>
+
+<p id="currentTime"></p>
+
+</div>
+
+<div class="user">
+
+<div>
+
+<b id="username">Loading...</b><br>
+
+<small id="email">Loading...</small>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Dashboard Cards -->
+
+<div class="cards">
+
+<div class="card">
+
+<h2 id="totalFiles">0</h2>
+
+<p>Total Files</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="sharedFiles">0</h2>
+
+<p>Shared Files</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="storageUsed">0 KB</h2>
+
+<p>Storage Used</p>
+
+</div>
+
+</div>
+
+<!-- Quick Actions -->
+
+<div class="actions">
+
+<button id="uploadPageBtn">
+
+📤 Upload File
+
+</button>
+
+<button id="myFilesBtn">
+
+📁 My Files
+
+</button>
+
+</div>
+
+<!-- Recent Files -->
+
+<div class="recent">
+
+<h2>Recent Files</h2>
+
+<div id="recentFiles">
+
+<p>No files uploaded yet.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module" src="js/dashboard.js"></script>
+
+</body>
+
+</html>
