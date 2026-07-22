@@ -1,26 +1,30 @@
 import { auth, db } from "./firebase.js";
 
 import {
-    collection,
-    doc,
-    getDocs,
-    setDoc,
-    onSnapshot,
-    query,
-    orderBy,
-    serverTimestamp,
-    where
+collection,
+doc,
+getDocs,
+setDoc,
+onSnapshot,
+query,
+orderBy,
+serverTimestamp,
+where
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+
 import {
-    onAuthStateChanged
+onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 
-let currentUser = null;
-let selectedUser = null;
+
+let currentUser=null;
+let selectedUser=null;
+let selectedContact=null;
+
 
 
 // ELEMENTS
@@ -39,7 +43,7 @@ const sendBtn=document.getElementById("sendBtn");
 const messageInput=document.getElementById("messageInput");
 const messages=document.getElementById("messages");
 
-let selectedContact=null;
+
 
 
 
@@ -67,6 +71,9 @@ loadChats();
 
 
 
+
+
+
 // SEARCH USERS
 
 searchBox.addEventListener("keyup",async()=>{
@@ -77,19 +84,22 @@ let text=searchBox.value.trim().toLowerCase();
 searchResults.innerHTML="";
 
 
-if(text==="") return;
+if(text==="")return;
 
 
-const snap=await getDocs(collection(db,"users"));
+
+const snap=
+await getDocs(collection(db,"users"));
+
 
 
 snap.forEach((d)=>{
 
 
-if(d.id===currentUser.uid) return;
+if(d.id===currentUser.uid)return;
 
 
-const data=d.data();
+let data=d.data();
 
 
 
@@ -109,9 +119,7 @@ div.innerHTML=`
 <button 
 data-id="${d.id}"
 data-name="${data.name}">
-
 Add
-
 </button>
 
 `;
@@ -120,23 +128,30 @@ Add
 searchResults.appendChild(div);
 
 
+
 }
 
 
-});
-
 
 });
 
 
+});
 
 
-// ADD CONTACT POPUP
+
+
+
+
+
+
+// OPEN SAVE POPUP
 
 searchResults.addEventListener("click",(e)=>{
 
 
 if(e.target.tagName==="BUTTON"){
+
 
 
 selectedContact={
@@ -146,6 +161,7 @@ uid:e.target.dataset.id,
 name:e.target.dataset.name
 
 };
+
 
 
 nickname.value="";
@@ -161,48 +177,78 @@ popup.style.display="flex";
 
 
 
-// CANCEL
+
+
+
+
+// CANCEL POPUP
 
 cancelBtn.onclick=()=>{
 
+
 popup.style.display="none";
+
 
 };
 
 
 
 
-// SAVE CONTACT
+
+
+
+
+
+// SAVE CONTACT AFTER SEARCH
 
 saveBtn.onclick=async()=>{
 
 
-if(!selectedContact)return;
+if(!selectedContact){
+
+alert("Select contact first");
+
+return;
+
+}
+
+
+
+let nick=
+nickname.value.trim()===""
+?
+selectedContact.name
+:
+nickname.value.trim();
 
 
 
 await setDoc(
 
+
 doc(
+
 db,
+
 "contacts",
+
 currentUser.uid,
+
 "list",
+
 selectedContact.uid
+
 ),
+
 
 {
 
 uid:selectedContact.uid,
 
-nickname:
-nickname.value.trim()===""
-?
-selectedContact.name
-:
-nickname.value.trim()
+nickname:nick
 
 }
+
 
 );
 
@@ -211,6 +257,9 @@ nickname.value.trim()
 popup.style.display="none";
 
 
+alert("Contact Saved");
+
+
 };
 
 
@@ -219,9 +268,15 @@ popup.style.display="none";
 
 
 
-// LOAD CHAT LIST AUTOMATICALLY
+
+
+
+
+
+// LOAD CHAT LIST
 
 function loadChats(){
+
 
 
 const q=query(
@@ -244,6 +299,7 @@ onSnapshot(q,(snapshot)=>{
 contactList.innerHTML="";
 
 
+
 snapshot.forEach((d)=>{
 
 
@@ -251,12 +307,13 @@ let chat=d.data();
 
 
 
-let index=
+let myIndex=
 chat.users.indexOf(currentUser.uid);
 
 
+
 let otherIndex=
-index===0?1:0;
+myIndex===0?1:0;
 
 
 
@@ -270,7 +327,8 @@ chat.userNames
 ?
 chat.userNames[otherIndex]
 :
-"User";
+"Unknown User";
+
 
 
 
@@ -290,7 +348,7 @@ div.innerHTML=`
 
 <h4>${otherName}</h4>
 
-<p>${chat.lastMessage} ➡️</p>
+<p>${chat.lastMessage || ""} ➡️</p>
 
 </div>
 
@@ -308,6 +366,7 @@ uid:otherUID,
 nickname:otherName
 
 };
+
 
 
 openChat(selectedUser);
@@ -339,6 +398,9 @@ contactList.appendChild(div);
 
 
 
+
+
+
 // OPEN CHAT
 
 function openChat(user){
@@ -353,7 +415,7 @@ document.getElementById("status").innerText=
 
 
 
-const chatId=
+let chatId=
 
 [currentUser.uid,user.uid]
 .sort()
@@ -372,24 +434,31 @@ loadMessages(chatId);
 
 
 
-// SAVE BUTTON FROM CHAT
+
+
+
+
+// SAVE CONTACT BUTTON IN CHAT
 
 function showSaveButton(){
 
 
-const btn=document.getElementById("saveChatContact");
+let btn=document.getElementById("saveChatContact");
 
 
 if(!btn)return;
 
 
+
 btn.style.display="block";
+
 
 
 btn.onclick=async()=>{
 
 
 await setDoc(
+
 
 doc(
 
@@ -405,6 +474,7 @@ selectedUser.uid
 
 ),
 
+
 {
 
 uid:selectedUser.uid,
@@ -413,7 +483,9 @@ nickname:selectedUser.nickname
 
 }
 
+
 );
+
 
 
 alert("Contact Saved");
@@ -422,7 +494,12 @@ alert("Contact Saved");
 };
 
 
+
 }
+
+
+
+
 
 
 
@@ -437,7 +514,7 @@ sendBtn.onclick=async()=>{
 
 if(!selectedUser){
 
-alert("Select chat first");
+alert("Select a user first");
 
 return;
 
@@ -454,7 +531,7 @@ if(text==="")return;
 
 
 
-const chatId=
+let chatId=
 
 [currentUser.uid,selectedUser.uid]
 .sort()
@@ -462,14 +539,14 @@ const chatId=
 
 
 
-const messageId=
+let messageId=
 Date.now().toString();
 
 
 
 
-
 await setDoc(
+
 
 doc(
 
@@ -485,6 +562,7 @@ messageId
 
 ),
 
+
 {
 
 sender:currentUser.uid,
@@ -497,16 +575,15 @@ time:new Date()
 
 }
 
+
 );
 
 
 
 
 
-
-// UPDATE CHAT LIST
-
 await setDoc(
+
 
 doc(
 
@@ -517,6 +594,7 @@ db,
 chatId
 
 ),
+
 
 {
 
@@ -540,20 +618,20 @@ selectedUser.nickname
 
 lastMessage:text,
 
-
 lastSender:currentUser.uid,
-
 
 time:serverTimestamp()
 
 
 },
 
+
 {
 
 merge:true
 
 }
+
 
 );
 
@@ -563,6 +641,9 @@ messageInput.value="";
 
 
 };
+
+
+
 
 
 
@@ -602,10 +683,12 @@ onSnapshot(q,(snap)=>{
 messages.innerHTML="";
 
 
+
 snap.forEach((d)=>{
 
 
 let m=d.data();
+
 
 
 let div=document.createElement("div");
@@ -625,10 +708,11 @@ m.sender===currentUser.uid
 
 
 
-div.innerHTML=m.text;
+div.innerText=m.text;
 
 
 messages.appendChild(div);
+
 
 
 });
