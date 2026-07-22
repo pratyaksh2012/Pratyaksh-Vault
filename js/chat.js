@@ -7,7 +7,8 @@ import {
     setDoc,
     onSnapshot,
     query,
-    orderBy
+    orderBy,
+    serverTimestamp
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
@@ -413,7 +414,39 @@ time:new Date()
 
 );
 
+// CREATE / UPDATE CHAT LIST
 
+await setDoc(
+
+doc(
+db,
+"chats",
+chatId
+),
+
+{
+
+users:[
+
+currentUser.uid,
+
+selectedUser.uid
+
+],
+
+lastMessage:text,
+
+lastSender:currentUser.uid,
+
+time:serverTimestamp()
+
+},
+
+{
+merge:true
+}
+
+);
 
 messageInput.value="";
 
