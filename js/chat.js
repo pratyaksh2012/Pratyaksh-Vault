@@ -8,7 +8,8 @@ import {
     onSnapshot,
     query,
     orderBy,
-    serverTimestamp
+    serverTimestamp,
+    where
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
@@ -60,7 +61,7 @@ onAuthStateChanged(auth,(user)=>{
 
     currentUser=user;
 
-    loadContacts();
+    loadChats();
 
 });
 
@@ -298,7 +299,79 @@ async function loadContacts(){
 
 
 }
+function loadChats(){
 
+
+const q = query(
+
+collection(db,"chats"),
+
+where(
+"users",
+"array-contains",
+currentUser.uid
+)
+
+);
+
+
+
+onSnapshot(q,(snapshot)=>{
+
+
+contactList.innerHTML="";
+
+
+
+snapshot.forEach((d)=>{
+
+
+const chat=d.data();
+
+
+
+let otherUser =
+chat.users.find(
+(uid)=>uid!==currentUser.uid
+);
+
+
+
+let div=document.createElement("div");
+
+
+div.className="contact";
+
+
+div.innerHTML=`
+
+<img src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+
+
+<div>
+
+<h4>${otherUser}</h4>
+
+<p>${chat.lastMessage} ➡️</p>
+
+</div>
+
+`;
+
+
+
+contactList.appendChild(div);
+
+
+
+});
+
+
+
+});
+
+
+}
 
 
 
