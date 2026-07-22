@@ -5,7 +5,7 @@ getDocs
 
 import { db } from "./firebase.js";
 
-const db=getFirestore(app);
+
 
 const search=document.getElementById("searchBox");
 
