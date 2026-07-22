@@ -16,35 +16,4 @@ if ("serviceWorker" in navigator) {
 }
 
 // Show Install Button
-window.addEventListener("beforeinstallprompt", (e) => {
-
-    e.preventDefault();
-
-    deferredPrompt = e;
-
-    if (installBtn) {
-        installBtn.style.display = "inline-block";
-    }
-
-});
-
-// Install App
-if (installBtn) {
-
-    installBtn.addEventListener("click", async () => {
-
-        if (!deferredPrompt) return;
-
-        deferredPrompt.prompt();
-
-        const { outcome } = await deferredPrompt.userChoice;
-
-        console.log(outcome);
-
-        deferredPrompt = null;
-
-        installBtn.style.display = "none";
-
-    });
-
-}
+window.addEventListener("beforeinstallprompt
