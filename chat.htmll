@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Pratyaksh Vault Chat</title>
+
+<link rel="stylesheet" href="css/chat.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="chat-container">
+
+<div class="sidebar">
+
+<div class="top">
+
+<h2>Chats</h2>
+
+<button id="addContact">
+
+<i class="fas fa-user-plus"></i>
+
+</button>
+
+</div>
+
+<input
+type="text"
+placeholder="Search username..."
+id="searchUser">
+
+<div id="contactList">
+
+</div>
+
+</div>
+
+<div class="chat-window">
+
+<div class="welcome">
+
+<i class="fas fa-comments"></i>
+
+<h2>Welcome to Pratyaksh Vault Chat</h2>
+
+<p>Select a contact to start chatting.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module"
+src="js/chat.js"></script>
+
+</body>
+</html>
