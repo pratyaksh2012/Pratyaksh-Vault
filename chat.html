@@ -3,9 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Pratyaksh Vault Chat</title>
 
@@ -18,53 +16,148 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 <body>
 
-<div class="chat-container">
+<div class="container">
 
-<div class="sidebar">
+    <!-- LEFT PANEL -->
 
-<div class="top">
+    <div class="sidebar">
 
-<h2>Chats</h2>
+        <div class="topBar">
 
-<button id="addContact">
+            <h2>
+                <i class="fas fa-comments"></i>
+                Chats
+            </h2>
 
-<i class="fas fa-user-plus"></i>
+            <button id="addContactBtn">
+                <i class="fas fa-user-plus"></i>
+            </button>
+
+        </div>
+
+        <div class="search">
+
+            <input
+            type="text"
+            id="searchBox"
+            placeholder="Search users...">
+
+        </div>
+
+        <div id="searchResults"></div>
+
+        <hr>
+
+        <div id="contactList">
+
+            <!-- Contacts appear here -->
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+
+    <div class="chatArea">
+
+        <div id="chatHeader">
+
+            <img
+            id="profilePic"
+            src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+
+            <div>
+
+                <h3 id="contactName">
+                    Welcome
+                </h3>
+
+                <small id="status">
+                    Select a contact
+                </small>
+
+            </div>
+
+        </div>
+
+        <div id="messages">
+
+            <div class="welcome">
+
+                <i class="fas fa-lock"></i>
+
+                <h2>
+                    Welcome to Pratyaksh Vault Chat
+                </h2>
+
+                <p>
+
+                    Search a registered user and start chatting.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div id="messageBox">
+
+            <button id="emojiBtn">
+                😊
+            </button>
+
+            <button id="attachBtn">
+                📎
+            </button>
+
+            <input
+            id="messageInput"
+            type="text"
+            placeholder="Type a message">
+
+            <button id="sendBtn">
+
+                <i class="fas fa-paper-plane"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ADD CONTACT POPUP -->
+
+<div id="popup" class="popup">
+
+<div class="popupContent">
+
+<h2>Add Contact</h2>
+
+<input
+type="text"
+id="nickname"
+placeholder="Enter Nickname">
+
+<button id="saveContact">
+
+Save Contact
+
+</button>
+
+<button id="cancelPopup">
+
+Cancel
 
 </button>
 
 </div>
-<input
-type="text"
-id="searchBox"
-placeholder="Search by name...">
-
-<div id="searchResults"></div>
-
-<div id="chatList"></div>
-
-<div id="contactList">
 
 </div>
 
-</div>
-
-<div class="chat-window">
-
-<div class="welcome">
-
-<i class="fas fa-comments"></i>
-
-<h2>Welcome to Pratyaksh Vault Chat</h2>
-
-<p>Select a contact to start chatting.</p>
-
-</div>
-
-</div>
-
-</div>
-
-<script type="module"
+<script
+type="module"
 src="js/chat.js"></script>
 
 </body>
