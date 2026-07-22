@@ -1,74 +1,76 @@
 import { auth, db } from "./firebase.js";
 
 import {
-collection,
-doc,
-getDocs,
-setDoc,
-onSnapshot,
-query,
-orderBy,
-serverTimestamp,
-where
+    collection,
+    doc,
+    getDocs,
+    setDoc,
+    onSnapshot,
+    query,
+    orderBy,
+    serverTimestamp,
+    where
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 
 import {
-onAuthStateChanged
+    onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 
 
-let currentUser=null;
-let selectedUser=null;
-let selectedContact=null;
+let currentUser = null;
+let selectedUser = null;
+let selectedContact = null;
 
 
 
 // ELEMENTS
 
-const searchBox=document.getElementById("searchBox");
-const searchResults=document.getElementById("searchResults");
-const contactList=document.getElementById("contactList");
+const searchBox = document.getElementById("searchBox");
+const searchResults = document.getElementById("searchResults");
 
-const popup=document.getElementById("popup");
-const nickname=document.getElementById("nickname");
+const contactList = document.getElementById("contactList");
 
-const saveBtn=document.getElementById("saveContact");
-const cancelBtn=document.getElementById("cancelPopup");
+const popup = document.getElementById("popup");
 
-const sendBtn=document.getElementById("sendBtn");
-const messageInput=document.getElementById("messageInput");
-const messages=document.getElementById("messages");
+const nickname = document.getElementById("nickname");
+
+const saveBtn = document.getElementById("saveContact");
+const cancelBtn = document.getElementById("cancelPopup");
+
+const sendBtn = document.getElementById("sendBtn");
+
+const messageInput = document.getElementById("messageInput");
+
+const messages = document.getElementById("messages");
 
 
 
 
-
-// LOGIN
+// LOGIN CHECK
 
 onAuthStateChanged(auth,(user)=>{
 
 
-if(!user){
+    if(!user){
 
-window.location.href="login.html";
+        window.location.href="login.html";
 
-return;
+        return;
 
-}
+    }
 
 
-currentUser=user;
+    currentUser = user;
 
-loadChats();
+
+    loadAllContacts();
 
 
 });
-
-
 
 
 
@@ -79,103 +81,104 @@ loadChats();
 searchBox.addEventListener("keyup",async()=>{
 
 
-let text=searchBox.value.trim().toLowerCase();
-
-searchResults.innerHTML="";
+    let text = searchBox.value.trim().toLowerCase();
 
 
-if(text==="")return;
+    searchResults.innerHTML="";
 
 
-
-const snap=
-await getDocs(collection(db,"users"));
+    if(text==="") return;
 
 
 
-snap.forEach((d)=>{
-
-
-if(d.id===currentUser.uid)return;
-
-
-let data=d.data();
+    const snap = await getDocs(
+        collection(db,"users")
+    );
 
 
 
-if(data.name.toLowerCase().includes(text)){
+    snap.forEach((d)=>{
 
 
-let div=document.createElement("div");
-
-
-div.className="user";
-
-
-div.innerHTML=`
-
-<span>${data.name}</span>
-
-<button 
-data-id="${d.id}"
-data-name="${data.name}">
-Add
-</button>
-
-`;
-
-
-searchResults.appendChild(div);
+        if(d.id===currentUser.uid)
+            return;
 
 
 
-}
+        const data=d.data();
+
+
+
+        if(data.name.toLowerCase().includes(text)){
+
+
+
+            let div=document.createElement("div");
+
+
+            div.className="user";
+
+
+            div.innerHTML=`
+
+            <span>${data.name}</span>
+
+            <button 
+            data-id="${d.id}"
+            data-name="${data.name}">
+
+            Add
+
+            </button>
+
+            `;
+
+
+            searchResults.appendChild(div);
+
+
+
+        }
+
+
+    });
 
 
 
 });
 
 
-});
 
 
 
-
-
-
-
-
-// OPEN SAVE POPUP
+// OPEN ADD CONTACT POPUP
 
 searchResults.addEventListener("click",(e)=>{
 
 
-if(e.target.tagName==="BUTTON"){
+    if(e.target.tagName==="BUTTON"){
+
+
+        selectedContact={
+
+            uid:e.target.dataset.id,
+
+            name:e.target.dataset.name
+
+        };
 
 
 
-selectedContact={
-
-uid:e.target.dataset.id,
-
-name:e.target.dataset.name
-
-};
+        nickname.value="";
 
 
-
-nickname.value="";
-
-popup.style.display="flex";
+        popup.style.display="flex";
 
 
-}
+    }
 
 
 });
-
-
-
 
 
 
@@ -185,15 +188,9 @@ popup.style.display="flex";
 
 cancelBtn.onclick=()=>{
 
-
-popup.style.display="none";
-
+    popup.style.display="none";
 
 };
-
-
-
-
 
 
 
@@ -204,60 +201,71 @@ popup.style.display="none";
 saveBtn.onclick=async()=>{
 
 
-if(!selectedContact){
+    if(!selectedContact){
 
-alert("Select contact first");
+        alert("Select contact first");
 
-return;
+        return;
 
-}
-
-
-
-let nick=
-nickname.value.trim()===""
-?
-selectedContact.name
-:
-nickname.value.trim();
+    }
 
 
 
-await setDoc(
+    let nick =
 
+    nickname.value.trim()===""
 
-doc(
+    ?
 
-db,
+    selectedContact.name
 
-"contacts",
+    :
 
-currentUser.uid,
-
-"list",
-
-selectedContact.uid
-
-),
-
-
-{
-
-uid:selectedContact.uid,
-
-nickname:nick
-
-}
-
-
-);
+    nickname.value.trim();
 
 
 
-popup.style.display="none";
 
 
-alert("Contact Saved");
+    await setDoc(
+
+        doc(
+
+            db,
+
+            "contacts",
+
+            currentUser.uid,
+
+            "list",
+
+            selectedContact.uid
+
+        ),
+
+        {
+
+            uid:selectedContact.uid,
+
+            nickname:nick
+
+        }
+
+    );
+
+
+
+    popup.style.display="none";
+
+
+    selectedContact=null;
+
+
+    loadAllContacts();
+
+
+
+    alert("Contact Saved");
 
 
 };
@@ -266,20 +274,29 @@ alert("Contact Saved");
 
 
 
+// LOAD BOTH CHATS + SAVED CONTACTS
+
+function loadAllContacts(){
 
 
+    contactList.innerHTML="";
 
 
+    loadChats();
 
 
+    loadSavedContacts();
 
-// LOAD CHAT LIST
+
+}
+// ===============================
+// LOAD AUTOMATIC CHATS
+// ===============================
 
 function loadChats(){
 
 
-
-const q=query(
+const q = query(
 
 collection(db,"chats"),
 
@@ -296,10 +313,6 @@ currentUser.uid
 onSnapshot(q,(snapshot)=>{
 
 
-contactList.innerHTML="";
-
-
-
 snapshot.forEach((d)=>{
 
 
@@ -307,33 +320,31 @@ let chat=d.data();
 
 
 
-let myIndex=
+let myIndex =
 chat.users.indexOf(currentUser.uid);
 
 
 
-let otherIndex=
-myIndex===0?1:0;
+let otherIndex =
+myIndex===0 ? 1 : 0;
 
 
 
-let otherUID=
+let otherUID =
 chat.users[otherIndex];
 
 
 
-let otherName=
+let otherName =
 chat.userNames
 ?
 chat.userNames[otherIndex]
 :
-"Unknown User";
-
+"User";
 
 
 
 let div=document.createElement("div");
-
 
 div.className="contact";
 
@@ -386,6 +397,98 @@ contactList.appendChild(div);
 });
 
 
+});
+
+
+}
+
+
+
+
+
+
+// ===============================
+// LOAD SAVED CONTACTS
+// ===============================
+
+async function loadSavedContacts(){
+
+
+
+const snap = await getDocs(
+
+collection(
+
+db,
+
+"contacts",
+
+currentUser.uid,
+
+"list"
+
+)
+
+);
+
+
+
+snap.forEach((d)=>{
+
+
+let data=d.data();
+
+
+
+let div=document.createElement("div");
+
+div.className="contact";
+
+
+
+div.innerHTML=`
+
+<img src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+
+
+<div>
+
+<h4>${data.nickname}</h4>
+
+<p>Saved Contact</p>
+
+</div>
+
+`;
+
+
+
+div.onclick=()=>{
+
+
+selectedUser={
+
+uid:data.uid,
+
+nickname:data.nickname
+
+};
+
+
+
+openChat(selectedUser);
+
+
+showSaveButton();
+
+
+};
+
+
+
+contactList.appendChild(div);
+
+
 
 });
 
@@ -399,15 +502,17 @@ contactList.appendChild(div);
 
 
 
-
-
+// ===============================
 // OPEN CHAT
+// ===============================
 
 function openChat(user){
 
 
+
 document.getElementById("contactName").innerText=
 user.nickname;
+
 
 
 document.getElementById("status").innerText=
@@ -415,15 +520,18 @@ document.getElementById("status").innerText=
 
 
 
-let chatId=
+const chatId =
 
 [currentUser.uid,user.uid]
+
 .sort()
+
 .join("_");
 
 
 
 loadMessages(chatId);
+
 
 
 }
@@ -435,18 +543,20 @@ loadMessages(chatId);
 
 
 
-
-
-
+// ===============================
 // SAVE CONTACT BUTTON IN CHAT
+// ===============================
 
 function showSaveButton(){
 
 
-let btn=document.getElementById("saveChatContact");
+
+const btn =
+document.getElementById("saveChatContact");
 
 
-if(!btn)return;
+
+if(!btn) return;
 
 
 
@@ -455,6 +565,7 @@ btn.style.display="block";
 
 
 btn.onclick=async()=>{
+
 
 
 await setDoc(
@@ -491,6 +602,9 @@ nickname:selectedUser.nickname
 alert("Contact Saved");
 
 
+loadAllContacts();
+
+
 };
 
 
@@ -504,43 +618,48 @@ alert("Contact Saved");
 
 
 
-
-
-
+// ===============================
 // SEND MESSAGE
+// ===============================
 
 sendBtn.onclick=async()=>{
 
 
 if(!selectedUser){
 
-alert("Select a user first");
+
+alert("Select a chat first");
+
 
 return;
+
 
 }
 
 
 
-let text=
+let text =
 messageInput.value.trim();
 
 
 
-if(text==="")return;
+if(text==="") return;
 
 
 
-let chatId=
+const chatId =
 
 [currentUser.uid,selectedUser.uid]
+
 .sort()
+
 .join("_");
 
 
 
-let messageId=
+const messageId =
 Date.now().toString();
+
 
 
 
@@ -582,6 +701,7 @@ time:new Date()
 
 
 
+
 await setDoc(
 
 
@@ -607,6 +727,7 @@ selectedUser.uid
 ],
 
 
+
 userNames:[
 
 currentUser.displayName || "User",
@@ -616,9 +737,12 @@ selectedUser.nickname
 ],
 
 
+
 lastMessage:text,
 
+
 lastSender:currentUser.uid,
+
 
 time:serverTimestamp()
 
@@ -640,6 +764,7 @@ merge:true
 messageInput.value="";
 
 
+
 };
 
 
@@ -649,15 +774,16 @@ messageInput.value="";
 
 
 
-
-
-
+// ===============================
 // LOAD MESSAGES
+// ===============================
 
 function loadMessages(chatId){
 
 
+
 const q=query(
+
 
 collection(
 
@@ -671,32 +797,38 @@ chatId,
 
 ),
 
+
 orderBy("time")
+
 
 );
 
 
 
-onSnapshot(q,(snap)=>{
+
+onSnapshot(q,(snapshot)=>{
+
 
 
 messages.innerHTML="";
 
 
 
-snap.forEach((d)=>{
+snapshot.forEach((d)=>{
 
 
-let m=d.data();
+
+let data=d.data();
 
 
 
 let div=document.createElement("div");
 
 
-div.className=
 
-m.sender===currentUser.uid
+div.className =
+
+data.sender===currentUser.uid
 
 ?
 
@@ -708,7 +840,8 @@ m.sender===currentUser.uid
 
 
 
-div.innerText=m.text;
+div.innerText=data.text;
+
 
 
 messages.appendChild(div);
@@ -718,7 +851,9 @@ messages.appendChild(div);
 });
 
 
+
 });
+
 
 
 }
