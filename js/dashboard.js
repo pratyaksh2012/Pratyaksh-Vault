@@ -157,3 +157,6 @@ logoutBtn.onclick=async()=>{
     window.location="login.html";
 
 };
+document.getElementById("chatBtn").addEventListener("click", () => {
+    window.location.href = "chat.html";
+});
