@@ -7,12 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Pratyaksh -Vault </title>
-
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b1f3a">
 <link rel="stylesheet" href="css/dashboard.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="icon-192.png">
-<link rel="manifest" href="manifest.json">
+
 </head>
 
 <body>
@@ -29,7 +30,9 @@ with ❤️
 <ul>
 
 <li>🏠 Home</li>
-
+<button id="installBtn" style="display:none;">
+Install App
+</button>
 <li id="upload">📤 Upload</li>
 
 <li id="myFiles">📁 My Files</li>
@@ -141,7 +144,7 @@ with ❤️
 </div>
 
 <script type="module" src="js/dashboard.js"></script>
-
+<script src="js/install.js"></script>
 </body>
 
 </html>
