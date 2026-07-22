@@ -1,37 +1,37 @@
 let deferredPrompt;
 
-const overlay = document.getElementById("installOverlay");
-const installBtn = document.getElementById("installNow");
-const continueBtn = document.getElementById("continueBrowser");
+const installBtn = document.getElementById("installBtn");
 
 // Register Service Worker
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service-worker.js");
+        navigator.serviceWorker.register("./service-worker.js")
+            .then(() => {
+                console.log("Service Worker Registered");
+            })
+            .catch(err => {
+                console.log(err);
+            });
     });
 }
 
-// Hide overlay if app is already installed
-if (
-    window.matchMedia("(display-mode: standalone)").matches ||
-    localStorage.getItem("pvInstalled") === "true"
-) {
-    if (overlay) overlay.style.display = "none";
-}
-
-// Browser says app can be installed
+// Show Install Button
 window.addEventListener("beforeinstallprompt", (e) => {
+
     e.preventDefault();
+
     deferredPrompt = e;
 
-    if (overlay) {
-        overlay.style.display = "flex";
+    if (installBtn) {
+        installBtn.style.display = "inline-block";
     }
+
 });
 
-// Install button
+// Install App
 if (installBtn) {
-    installBtn.onclick = async () => {
+
+    installBtn.addEventListener("click", async () => {
 
         if (!deferredPrompt) return;
 
@@ -39,27 +39,12 @@ if (installBtn) {
 
         const { outcome } = await deferredPrompt.userChoice;
 
-        if (outcome === "accepted") {
-            localStorage.setItem("pvInstalled", "true");
-        }
+        console.log(outcome);
 
-        overlay.style.display = "none";
         deferredPrompt = null;
-    };
+
+        installBtn.style.display = "none";
+
+    });
+
 }
-
-// Continue in browser
-if (continueBtn) {
-    continueBtn.onclick = () => {
-        overlay.style.display = "none";
-    };
-}
-
-// App installed
-window.addEventListener("appinstalled", () => {
-    localStorage.setItem("pvInstalled", "true");
-
-    if (overlay) {
-        overlay.style.display = "none";
-    }
-});
