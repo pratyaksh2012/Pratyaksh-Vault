@@ -2,26 +2,49 @@ let deferredPrompt;
 
 const installBtn = document.getElementById("installBtn");
 
+// Register Service Worker
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+            .then(() => {
+                console.log("Service Worker Registered");
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    });
+}
+
+// Show Install Button
 window.addEventListener("beforeinstallprompt", (e) => {
 
     e.preventDefault();
 
     deferredPrompt = e;
 
-    installBtn.style.display = "block";
+    if (installBtn) {
+        installBtn.style.display = "inline-block";
+    }
 
 });
 
-installBtn.addEventListener("click", async () => {
+// Install App
+if (installBtn) {
 
-    if (!deferredPrompt) return;
+    installBtn.addEventListener("click", async () => {
 
-    deferredPrompt.prompt();
+        if (!deferredPrompt) return;
 
-    await deferredPrompt.userChoice;
+        deferredPrompt.prompt();
 
-    deferredPrompt = null;
+        const { outcome } = await deferredPrompt.userChoice;
 
-    installBtn.style.display = "none";
+        console.log(outcome);
 
-});
+        deferredPrompt = null;
+
+        installBtn.style.display = "none";
+
+    });
+
+}
