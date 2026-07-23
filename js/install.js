@@ -2,20 +2,36 @@ let deferredPrompt;
 
 const installBtn = document.getElementById("installBtn");
 
+// =========================
 // Register Service Worker
+// =========================
+
 if ("serviceWorker" in navigator) {
+
     window.addEventListener("load", () => {
+
         navigator.serviceWorker.register("./service-worker.js")
-            .then(() => {
-                console.log("Service Worker Registered");
-            })
-            .catch(err => {
-                console.log(err);
-            });
+
+        .then(() => {
+
+            console.log("Service Worker Registered");
+
+        })
+
+        .catch((err) => {
+
+            console.log("Service Worker Error:", err);
+
+        });
+
     });
+
 }
 
-// Show Install Button
+// =========================
+// Detect Install Prompt
+// =========================
+
 window.addEventListener("beforeinstallprompt", (e) => {
 
     e.preventDefault();
@@ -23,27 +39,47 @@ window.addEventListener("beforeinstallprompt", (e) => {
     deferredPrompt = e;
 
     if (installBtn) {
+
         installBtn.style.display = "inline-block";
+
     }
 
 });
 
-// Install App
+// =========================
+// Install Button
+// =========================
+
 if (installBtn) {
 
     installBtn.addEventListener("click", async () => {
 
-        if (!deferredPrompt) return;
+        // Browser supports install prompt
+        if (deferredPrompt) {
 
-        deferredPrompt.prompt();
+            deferredPrompt.prompt();
 
-        const { outcome } = await deferredPrompt.userChoice;
+            const { outcome } = await deferredPrompt.userChoice;
 
-        console.log(outcome);
+            console.log("Install Result:", outcome);
 
-        deferredPrompt = null;
+            deferredPrompt = null;
 
-        installBtn.style.display = "none";
+            installBtn.style.display = "none";
+
+        }
+
+        // Browser does not support install prompt
+        else {
+
+            alert(
+                "Install prompt is not available on this browser.\n\n" +
+                "If you are using Chrome on Windows 7, this feature is not supported.\n\n" +
+                "You can still install the app from a supported browser by using:\n\n" +
+                "Menu (⋮) → Install App / Add to Home Screen."
+            );
+
+        }
 
     });
 
