@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>About - Pratyaksh Vault</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+
+background:linear-gradient(135deg,#07152d,#123f90,#4b2eff);
+color:white;
+overflow-x:hidden;
+
+}
+
+header{
+
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:20px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+z-index:1000;
+
+}
+
+.logo{
+
+font-size:32px;
+font-weight:700;
+
+}
+
+.logo span{
+
+color:#49d7ff;
+
+}
+
+nav a{
+
+color:white;
+text-decoration:none;
+margin-left:30px;
+font-size:18px;
+transition:.3s;
+
+}
+
+nav a:hover{
+
+color:#49d7ff;
+
+}
+
+.hero{
+
+padding-top:150px;
+padding-bottom:80px;
+text-align:center;
+
+}
+
+.hero h1{
+
+font-size:60px;
+margin-bottom:20px;
+
+}
+
+.hero p{
+
+font-size:22px;
+max-width:850px;
+margin:auto;
+color:#dddddd;
+line-height:1.8;
+
+}
+
+.container{
+
+width:90%;
+max-width:1400px;
+margin:auto;
+
+}
+
+.profile{
+
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:50px;
+align-items:center;
+margin-bottom:90px;
+
+}
+
+.photo{
+
+width:260px;
+height:260px;
+border-radius:50%;
+background:linear-gradient(45deg,#27c4ff,#3a66ff,#6a00ff);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:110px;
+box-shadow:0 0 50px rgba(0,170,255,.6);
+
+}
+
+.info{
+
+max-width:700px;
+
+}
+
+.info h2{
+
+font-size:42px;
+margin-bottom:20px;
+
+}
+
+.info p{
+
+font-size:19px;
+line-height:1.9;
+color:#e5e5e5;
+
+}
+
+.cards{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:35px;
+margin-bottom:90px;
+
+}
+
+.card{
+
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(25px);
+padding:35px;
+border-radius:25px;
+transition:.4s;
+border:1px solid rgba(255,255,255,.15);
+box-shadow:0 20px 50px rgba(0,0,0,.30);
+
+}
+
+.card:hover{
+
+transform:translateY(-10px) scale(1.03);
+
+}
+
+.card h2{
+
+margin-bottom:20px;
+font-size:30px;
+
+}
+
+.card p{
+
+font-size:17px;
+line-height:1.8;
+color:#ededed;
+
+}
+
+.sectionTitle{
+
+text-align:center;
+font-size:48px;
+margin-bottom:50px;
+
+}
+
+.tech{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+margin-bottom:90px;
+
+}
+
+.techBox{
+
+background:rgba(255,255,255,.08);
+padding:30px;
+border-radius:20px;
+text-align:center;
+transition:.4s;
+
+}
+
+.techBox:hover{
+
+transform:scale(1.08);
+
+background:rgba(255,255,255,.15);
+
+}
+
+.techBox h3{
+
+margin-top:15px;
+font-size:24px;
+
+}
+
+.back{
+
+display:flex;
+justify-content:center;
+margin-bottom:70px;
+
+}
+
+.back a{
+
+text-decoration:none;
+background:#2dbdff;
+color:white;
+padding:18px 45px;
+border-radius:50px;
+font-size:20px;
+transition:.4s;
+
+}
+
+.back a:hover{
+
+background:white;
+color:#0d43c9;
+
+}
+
+footer{
+
+padding:35px;
+text-align:center;
+background:rgba(0,0,0,.25);
+
+}
+
+@media(max-width:768px){
+
+.hero h1{
+
+font-size:42px;
+
+}
+
+.hero p{
+
+font-size:18px;
+
+}
+
+.sectionTitle{
+
+font-size:34px;
+
+}
+
+nav{
+
+display:none;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+☁ <span>Pratyaksh</span> Vault
+
+</div>
+
+<nav>
+
+<a href="index.html">Home</a>
+<a href="features.html">Features</a>
+<a href="about.html">About</a>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<h1>About Pratyaksh Vault</h1>
+
+<p>
+
+Pratyaksh Vault is a modern cloud storage platform built to make file uploading,
+storage and sharing fast, secure and simple for everyone.
+
+</p>
+
+</section>
+
+<div class="container">
+
+<div class="profile">
+
+<div class="photo">
+
+👨‍💻
+
+</div>
+
+<div class="info">
+
+<h2>Developer</h2>
+
+<p>
+
+Hello! I'm <b>Pratyaksh Pratap Singh</b>, the creator of
+<b>Pratyaksh Vault</b>.
+
+This project was designed to provide a beautiful, secure and user-friendly
+cloud storage experience where users can upload, manage and share files
+from anywhere.
+
+Using modern web technologies, the goal is to make file management as
+simple as possible while keeping performance and security a top priority.
+
+</p>
+
+</div>
+
+</div>
+
+<h1 class="sectionTitle">
+
+Mission & Vision
+
+</h1>
+
+<div class="cards">
+
+<div class="card">
+
+<h2>🚀 Our Mission</h2>
+
+<p>
+
+To create a free, reliable and easy-to-use cloud storage platform that helps
+students, professionals and everyone securely upload and share files from
+any device.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>🌍 Our Vision</h2>
+
+<p>
+
+To transform Pratyaksh Vault into a complete cloud ecosystem featuring
+real-time collaboration, AI-powered search, advanced sharing and secure
+communication.
+
+</p>
+
+</div>
+<div class="card">
+
+<h2>🔒 Security</h2>
+
+<p>
+
+Every user account is authenticated using Firebase Authentication while
+files are securely stored in the cloud. Your data remains protected and
+accessible only to authorized users.
+
+</p>
+
+</div>
+
+</div>
+
+<h1 class="sectionTitle">
+
+Technologies Used
+
+</h1>
+
+<div class="tech">
+
+<div class="techBox">
+
+<h1>🔥</h1>
+
+<h3>Firebase</h3>
+
+<p>
+
+Authentication, Firestore Database and secure cloud services.
+
+</p>
+
+</div>
+
+<div class="techBox">
+
+<h1>☁️</h1>
+
+<h3>Cloudinary</h3>
+
+<p>
+
+Fast cloud storage for images, videos, PDFs and documents.
+
+</p>
+
+</div>
+
+<div class="techBox">
+
+<h1>🌐</h1>
+
+<h3>HTML5</h3>
+
+<p>
+
+Modern responsive page structure.
+
+</p>
+
+</div>
+
+<div class="techBox">
+
+<h1>🎨</h1>
+
+<h3>CSS3</h3>
+
+<p>
+
+Beautiful gradients, glassmorphism and responsive layouts.
+
+</p>
+
+</div>
+
+<div class="techBox">
+
+<h1>⚡</h1>
+
+<h3>JavaScript</h3>
+
+<p>
+
+Interactive user interface and real-time functionality.
+
+</p>
+
+</div>
+
+<div class="techBox">
+
+<h1>📱</h1>
+
+<h3>Progressive Web App</h3>
+
+<p>
+
+Install and use Pratyaksh Vault like a native application.
+
+</p>
+
+</div>
+
+</div>
+
+<h1 class="sectionTitle">
+
+Project Statistics
+
+</h1>
+
+<div class="cards">
+
+<div class="card">
+
+<h2>📁 File Types</h2>
+
+<p>
+
+✔ Images<br>
+✔ Videos<br>
+✔ PDF Documents<br>
+✔ ZIP Files<br>
+✔ Office Documents<br>
+✔ Audio Files
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>⚙ Current Features</h2>
+
+<p>
+
+✔ User Login & Signup<br>
+✔ Cloud Uploads<br>
+✔ My Files<br>
+✔ File Sharing<br>
+✔ Chat System<br>
+✔ Dark Mode<br>
+✔ Responsive Dashboard
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>🚀 Future Roadmap</h2>
+
+<p>
+
+⭐ AI File Search<br>
+⭐ Video Calling<br>
+⭐ Voice Messages<br>
+⭐ File Encryption<br>
+⭐ Notifications<br>
+⭐ Team Collaboration<br>
+⭐ Automatic Backup
+
+</p>
+
+</div>
+
+</div>
+
+<h1 class="sectionTitle">
+
+Why Choose Pratyaksh Vault?
+
+</h1>
+
+<div class="cards">
+
+<div class="card">
+
+<h2>💙 Beautiful Design</h2>
+
+<p>
+
+A modern premium interface with smooth animations, elegant colors and
+glassmorphism that feels like a professional cloud platform.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>⚡ Fast Performance</h2>
+
+<p>
+
+Optimized uploading, responsive pages and quick navigation ensure an
+excellent user experience on desktop and mobile devices.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>❤️ Built with Passion</h2>
+
+<p>
+
+Every feature has been carefully designed to make storing and sharing
+files simple, secure and enjoyable for everyone.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="back">
+
+<a href="index.html">
+
+🏠 Back to Home
+
+</a>
+
+</div>
+
+</div>
+
+<footer>
+
+<h2>
+
+☁ Pratyaksh Vault
+
+</h2>
+
+<br>
+
+<p>
+
+Designed & Developed with ❤️ by
+
+<b>Pratyaksh Pratap Singh</b>
+
+</p>
+
+<br>
+
+<p>
+
+Secure • Upload • Store • Share
+
+</p>
+
+<br>
+
+<p>
+
+Powered by HTML • CSS • JavaScript • Firebase • Cloudinary
+
+</p>
+
+<br>
+
+<p>
+
+Version 1.0 | © 2026 Pratyaksh Vault. All Rights Reserved.
+
+</p>
+
+</footer>
+
+</body>
+
+</html>
