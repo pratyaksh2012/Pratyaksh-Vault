@@ -6,20 +6,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
         link.addEventListener("click", function(e){
 
-            e.preventDefault();
+            const text = this.textContent.trim();
 
-            const text=this.textContent.trim();
+            if(text === "Home"){
 
-            if(text==="Home"){
+                e.preventDefault();
 
-                window.scrollTo({
-                    top:0,
-                    behavior:"smooth"
-                });
+                window.location.href = "index.html";
 
-            }else{
+            }
 
-                alert(text+" section will be available soon.");
+            else if(text === "Features"){
+
+                e.preventDefault();
+
+                window.location.href = "features.html";
+
+            }
+
+            else if(text === "About"){
+
+                e.preventDefault();
+
+                window.location.href = "about.html";
 
             }
 
@@ -29,13 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Login Button
 
-    const login=document.querySelector(".login-btn");
+    const login = document.querySelector(".login-btn");
 
     if(login){
 
-        login.onclick=()=>{
+        login.onclick = () => {
 
-            window.location.href="login.html";
+            window.location.href = "login.html";
 
         };
 
@@ -43,13 +52,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Get Started
 
-    const start=document.querySelector(".start");
+    const start = document.querySelector(".start");
 
     if(start){
 
-        start.onclick=()=>{
+        start.onclick = () => {
 
-            window.location.href="signup.html";
+            window.location.href = "signup.html";
 
         };
 
@@ -57,31 +66,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // CTA Button
 
-    const cta=document.querySelector(".cta-btn");
+    const cta = document.querySelector(".cta-btn");
 
     if(cta){
 
-        cta.onclick=()=>{
+        cta.onclick = () => {
 
-            window.location.href="signup.html";
+            window.location.href = "signup.html";
 
         };
 
     }
 
-    // Animation
+    // Button Animation
 
-    document.querySelectorAll("button").forEach(button=>{
+    document.querySelectorAll("button").forEach(button => {
 
-        button.addEventListener("mouseenter",()=>{
+        button.addEventListener("mouseenter", () => {
 
-            button.style.transform="scale(1.05)";
+            button.style.transform = "scale(1.05)";
 
         });
 
-        button.addEventListener("mouseleave",()=>{
+        button.addEventListener("mouseleave", () => {
 
-            button.style.transform="scale(1)";
+            button.style.transform = "scale(1)";
 
         });
 
