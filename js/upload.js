@@ -1,4 +1,4 @@
-﻿import { auth, db } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 
 import {
     onAuthStateChanged
@@ -16,10 +16,7 @@ const status = document.getElementById("status");
 
 let currentUser = null;
 
-// ======================
 // Check Login
-// ======================
-
 onAuthStateChanged(auth, (user) => {
 
     if (user) {
@@ -34,10 +31,7 @@ onAuthStateChanged(auth, (user) => {
 
 });
 
-// ======================
 // Upload File
-// ======================
-
 uploadBtn.onclick = async () => {
 
     const file = fileInput.files[0];
@@ -45,7 +39,6 @@ uploadBtn.onclick = async () => {
     if (!file) {
 
         alert("Please choose a file.");
-
         return;
 
     }
@@ -56,6 +49,7 @@ uploadBtn.onclick = async () => {
 
     data.append("file", file);
     data.append("upload_preset", "cloudshare_upload");
+    data.append("resource_type", "auto");
 
     try {
 
@@ -73,6 +67,15 @@ uploadBtn.onclick = async () => {
 
         if (result.secure_url) {
 
+            let fileURL = result.secure_url;
+
+            // Fix PDF URL
+            if (file.type === "application/pdf") {
+
+                fileURL = result.secure_url.replace("/image/upload/", "/raw/upload/");
+
+            }
+
             await addDoc(collection(db, "files"), {
 
                 userId: currentUser.uid,
@@ -86,7 +89,7 @@ uploadBtn.onclick = async () => {
                 sizeKB: (file.size / 1024).toFixed(2),
                 uploadDate: new Date().toLocaleString(),
 
-                url: result.secure_url,
+                url: fileURL,
                 publicId: result.public_id,
 
                 sharedWith: [],
@@ -97,21 +100,18 @@ uploadBtn.onclick = async () => {
             });
 
             status.innerHTML = "✅ Upload Successful!";
-
             fileInput.value = "";
 
         } else {
 
-            status.innerHTML = "❌ Upload Failed";
-
             console.log(result);
+            status.innerHTML = "❌ Upload Failed";
 
         }
 
     } catch (err) {
 
         console.error(err);
-
         status.innerHTML = "❌ " + err.message;
 
     }
