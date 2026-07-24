@@ -16,7 +16,10 @@ const status = document.getElementById("status");
 
 let currentUser = null;
 
+// -------------------------------
 // Check Login
+// -------------------------------
+
 onAuthStateChanged(auth, (user) => {
 
     if (user) {
@@ -31,8 +34,18 @@ onAuthStateChanged(auth, (user) => {
 
 });
 
-// Upload File
+// -------------------------------
+// Upload
+// -------------------------------
+
 uploadBtn.onclick = async () => {
+
+    if (!currentUser) {
+
+        alert("Please login first.");
+        return;
+
+    }
 
     const file = fileInput.files[0];
 
@@ -49,7 +62,6 @@ uploadBtn.onclick = async () => {
 
     data.append("file", file);
     data.append("upload_preset", "cloudshare_upload");
-    data.append("resource_type", "auto");
 
     try {
 
@@ -65,53 +77,98 @@ uploadBtn.onclick = async () => {
 
         console.log(result);
 
-        if (result.secure_url) {
+        if (!result.secure_url) {
 
-            let fileURL = result.secure_url;
-
-            // Fix PDF URL
-            if (file.type === "application/pdf") {
-
-                fileURL = result.secure_url.replace("/image/upload/", "/raw/upload/");
-
-            }
-
-            await addDoc(collection(db, "files"), {
-
-                userId: currentUser.uid,
-                userName: currentUser.displayName || "",
-                email: currentUser.email,
-
-                fileName: file.name,
-                fileType: file.type,
-                fileSize: file.size,
-
-                sizeKB: (file.size / 1024).toFixed(2),
-                uploadDate: new Date().toLocaleString(),
-
-                url: fileURL,
-                publicId: result.public_id,
-
-                sharedWith: [],
-                favorite: false,
-
-                createdAt: serverTimestamp()
-
-            });
-
-            status.innerHTML = "✅ Upload Successful!";
-            fileInput.value = "";
-
-        } else {
-
-            console.log(result);
             status.innerHTML = "❌ Upload Failed";
+            console.log(result);
+            return;
 
         }
 
-    } catch (err) {
+        //--------------------------------------------------
+        // Detect Resource Type
+        //--------------------------------------------------
+
+        let resourceType = result.resource_type || "image";
+
+        let fileURL = result.secure_url;
+
+        //--------------------------------------------------
+        // RAW FILES
+        //--------------------------------------------------
+
+        if (resourceType === "raw") {
+
+            fileURL = result.secure_url
+                .replace("/image/upload/", "/raw/upload/")
+                .replace("/video/upload/", "/raw/upload/");
+
+        }
+
+        //--------------------------------------------------
+        // VIDEO FILES
+        //--------------------------------------------------
+
+        if (resourceType === "video") {
+
+            fileURL = result.secure_url
+                .replace("/image/upload/", "/video/upload/");
+
+        }
+
+        //--------------------------------------------------
+        // IMAGE FILES
+        //--------------------------------------------------
+
+        if (resourceType === "image") {
+
+            fileURL = result.secure_url
+                .replace("/video/upload/", "/image/upload/");
+
+        }
+
+        //--------------------------------------------------
+        // Save in Firestore
+        //--------------------------------------------------
+
+        await addDoc(collection(db, "files"), {
+
+            userId: currentUser.uid,
+            userName: currentUser.displayName || "User",
+            email: currentUser.email,
+
+            fileName: file.name,
+            fileType: file.type,
+
+            resourceType: resourceType,
+
+            fileSize: file.size,
+            sizeKB: (file.size / 1024).toFixed(2),
+
+            uploadDate: new Date().toLocaleString(),
+
+            url: fileURL,
+
+            publicId: result.public_id,
+
+            favorite: false,
+
+            sharedWith: [],
+
+            createdAt: serverTimestamp()
+
+        });
+
+        status.innerHTML = "✅ Upload Successful!";
+
+        fileInput.value = "";
+
+    }
+
+    catch (err) {
 
         console.error(err);
+
         status.innerHTML = "❌ " + err.message;
 
     }
