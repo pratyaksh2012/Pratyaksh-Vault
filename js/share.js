@@ -66,6 +66,9 @@ onAuthStateChanged(auth, async (user) => {
 <p><b>Size:</b> ${size} KB</p>
 
 <hr>
+<button id="selectAllBtn">
+✅ Select All Users
+</button>
 
 <h2>Select Users</h2>
 
@@ -103,7 +106,19 @@ data-email="${u.email || ""}">
 `;
 
         });
+const selectAllBtn = document.getElementById("selectAllBtn");
 
+selectAllBtn.onclick = () => {
+
+    const checkboxes = document.querySelectorAll(".userCheck");
+
+    checkboxes.forEach(box => {
+
+        box.checked = true;
+
+    });
+
+};
         shareBtn.onclick = async () => {
 
             const checks = document.querySelectorAll(".userCheck:checked");
