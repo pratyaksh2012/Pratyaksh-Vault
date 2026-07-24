@@ -157,3 +157,14 @@ console.log(file);
     }
 
 });
+const selectAllBtn = document.getElementById("selectAllBtn");
+
+selectAllBtn.onclick = () => {
+
+    const checkboxes = document.querySelectorAll(".userCheck");
+
+    checkboxes.forEach(box => {
+        box.checked = true;
+    });
+
+};
